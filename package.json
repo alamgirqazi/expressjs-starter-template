@@ -1,0 +1,23 @@
+{
+  "name": "expressjs-starter-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "~4.16.0",
+    "express-session": "^1.15.4",
+    "jsonwebtoken": "^8.2.2",
+    "pg": "^6.1.0"
+  },
+  "devDependencies": {
+    "dotenv": "^6.0.0",
+    "eslint-config-google": "^0.9.1"
+  }
+}
