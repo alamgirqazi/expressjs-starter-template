@@ -7,20 +7,38 @@ require('dotenv').config();
 const errorHandler = require("./middleware/error-handler");
 const errorMessage = require("./middleware/error-message");
 const accessControls = require("./middleware/access-controls");
-
+const cors = require('cors');
+const bodyParser = require('body-parser')
+app.use(
+    bodyParser.urlencoded({
+      extended: true
+    })
+  );
+  
+  app.use(bodyParser.json()); // to support JSON-encoded bodies
+  
 // connection to  PG DB
 
-const  { Client } = require('pg');
+// const  { Client } = require('pg');
 
-const client = new Client({
-  user: process.env.PGUser,
-  host: process.env.PGHost,
-  database: process.env.PGDatabase,
-  password: process.env.PGPassword,
-  port: process.env.PGPort
-})
+// const client = new Client({
+//   user: process.env.PGUser,
+//   host: process.env.PGHost,
+//   database: process.env.PGDatabase,
+//   password: process.env.PGPassword,
+//   port: process.env.PGPort
+// })
 
-client.connect();
+// client.connect();
+
+
+// Mongo DB 
+
+// connection to mongoose
+// const mongoCon = process.env.mongoCon;
+
+// mongoose.connect(mongoCon,{ useNewUrlParser: true,useCreateIndex: true });
+
 
 // Requiring Routes
 
@@ -38,9 +56,17 @@ fs.readdirSync(__dirname + "/models").forEach(function(file) {
 
 app.use(express.static("public"));
 
+
+app.get('/',  function (req, res) {
+  res.status(200).send({
+    message: 'Backend server running'});
+});
+
+
 app.set('port', (process.env.PORT || 3000));
 
 app.use(accessControls);
+app.use(cors());
 
 // Routes which should handle requests
 app.use("/sample", sampleRoutes);
