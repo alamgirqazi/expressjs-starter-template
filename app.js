@@ -9,6 +9,9 @@ const errorMessage = require("./middleware/error-message");
 const accessControls = require("./middleware/access-controls");
 const cors = require('cors');
 const bodyParser = require('body-parser')
+// const redis = require('./config/redis');
+
+
 app.use(
     bodyParser.urlencoded({
       extended: true
@@ -39,6 +42,12 @@ app.use(
 
 // mongoose.connect(mongoCon,{ useNewUrlParser: true,useCreateIndex: true });
 
+
+
+
+
+// prevents well known security vulnerabilities
+app.use(helmet());
 
 // Requiring Routes
 
@@ -78,3 +87,16 @@ app.use(errorMessage);
 
 server.listen(app.get('port'));
 console.log('listening on port',app.get('port'));
+
+
+process
+  .on('unhandledRejection', (reason, p) => {
+    console.log('Inside Unhandled Rejection');
+    console.error(reason, 'Unhandled Rejection at Promise', p);
+    process.exit(1);
+  })
+  .on('uncaughtException', err => {
+    console.log('Inside Uncaught Exception');
+    console.error(err, 'Uncaught Exception thrown');
+    process.exit(1);
+  });
